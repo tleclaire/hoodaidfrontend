@@ -1,82 +1,110 @@
 import * as React from 'react';
 import { Component } from 'react';
 import {
-  Collapse,
-  Container,
-  Navbar,
-  NavbarBrand,
-  NavbarToggler,
-  NavItem,
-  NavLink,
+    Collapse,
+    Container,
+    Navbar,
+    NavbarBrand,
+    NavbarToggler,
+    NavItem,
+    NavLink,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
 interface INavMenuState {
-  collapsed: boolean;
+    collapsed: boolean;
 }
 
 export class NavMenu extends Component<{}, INavMenuState> {
-  static displayName = NavMenu.name;
+    static displayName = NavMenu.name;
 
-  constructor(props: any) {
-    super(props);
+    constructor(props: any) {
+        super(props);
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true,
-    };
-  }
+        this.toggleNavbar = this.toggleNavbar.bind(this);
+        this.state = {
+            collapsed: true,
+        };
+    }
 
-  public toggleNavbar(): void {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  }
+    public toggleNavbar(): void {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    }
 
-  public render(): React.ReactElement {
-    return (
-      <header>
-        <Navbar
-          className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-          light
-        >
-          <Container>
-            <NavbarBrand tag={Link} to="/">
-              HoodAidReact
-            </NavbarBrand>
-            <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-            <Collapse
-              className="d-sm-inline-flex flex-sm-row-reverse"
-              isOpen={!this.state.collapsed}
-              navbar
-            >
-              <ul className="navbar-nav flex-grow">
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">
-                    Home
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/counter">
-                    Counter
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-data">
-                    Fetch data
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-users">
-                    Fetch Users
-                  </NavLink>
-                </NavItem>
-              </ul>
-            </Collapse>
-          </Container>
-        </Navbar>
-      </header>
-    );
-  }
+    public render(): React.ReactElement {
+        return (
+            <header>
+                <Navbar
+                    className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
+                    light
+                >
+                    <Container>
+                        <NavbarBrand tag={Link} to="/">
+                            HoodAidReact
+                        </NavbarBrand>
+                        <NavbarToggler
+                            onClick={this.toggleNavbar}
+                            className="mr-2"
+                        />
+                        <Collapse
+                            className="d-sm-inline-flex flex-sm-row-reverse"
+                            isOpen={!this.state.collapsed}
+                            navbar
+                        >
+                            <ul className="navbar-nav flex-grow">
+                                <NavItem>
+                                    <NavLink
+                                        tag={Link}
+                                        className="text-dark"
+                                        to="/"
+                                    >
+                                        Home
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        tag={Link}
+                                        className="text-dark"
+                                        to="/counter"
+                                    >
+                                        Counter
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        tag={Link}
+                                        className="text-dark"
+                                        to="/fetch-data"
+                                    >
+                                        Fetch data
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        tag={Link}
+                                        className="text-dark"
+                                        to="/fetch-users"
+                                    >
+                                        Fetch Users
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        tag={Link}
+                                        className="text-dark"
+                                        to="/user-form"
+                                    >
+                                        Users Form
+                                    </NavLink>
+                                </NavItem>
+                            </ul>
+                        </Collapse>
+                    </Container>
+                </Navbar>
+            </header>
+        );
+    }
 }
