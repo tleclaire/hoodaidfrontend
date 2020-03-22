@@ -1,11 +1,16 @@
-import { Symptom } from './SymptomModel';
 import { ContactPerson } from './ContactPersonModel';
 
 export interface DiaryEntry {
     id?: number;
-    time: Date | string;
+    time: Date;
     activity: string;
     temperature: number;
-    symptoms: Symptom[];
+    husten: boolean;
+    kurzatmigkeit: boolean;
+    atemnot: boolean;
+    gliederschmerzen: boolean;
+    durchfall: boolean;
+    geruchssinnVerlust: boolean;
+    muedigkeit: boolean;
     contacts: ContactPerson[];
 }

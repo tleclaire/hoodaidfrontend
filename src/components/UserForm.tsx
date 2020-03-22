@@ -1,25 +1,17 @@
 import React, { Component } from 'react';
-import {
-    Container,
-    Col,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    Button,
-    FormText,
-    FormFeedback,
-} from 'reactstrap';
+import { Container, Col, Form, FormGroup, Label, Input, Button, FormText, FormFeedback } from 'reactstrap';
 import './Form.css';
 import { IUser, DefaultUser } from './FetchUsers';
 import { http } from '../Libs/http';
 import { post } from '../Libs/http';
+import { Redirect } from 'react-router';
 
 interface IEmailState {
     emailState: string;
 }
 
 interface IFormState {
+    toUsers: boolean;
     email: string;
     password: string;
     vorname: string;
@@ -35,6 +27,7 @@ class UserForm extends Component<{}, IFormState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            toUsers: false,
             email: '',
             password: '',
             vorname: '',
@@ -63,8 +56,7 @@ class UserForm extends Component<{}, IFormState> {
 
     handleChange = async (event: React.FormEvent<HTMLInputElement>) => {
         const target = event.target as HTMLInputElement;
-        const value =
-            target.type === 'checkbox' ? target.checked : target.value;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
         const { name } = target;
         await this.setState({
             [name]: value,
@@ -85,59 +77,41 @@ class UserForm extends Component<{}, IFormState> {
     async submitForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         let user: IUser = this.formatUser(this.state);
-        await post(
-            'https://hoodaid20200321090450.azurewebsites.net/api/Users',
-            user,
-        );
-        console.log(`Email: ${this.state.email}`);
+        await post('https://hoodaid20200321090450.azurewebsites.net/api/Users', user);
+        this.setState({ toUsers: true });
     }
 
     render() {
-        const {
-            email,
-            password,
-            vorname,
-            nachname,
-            plz,
-            ort,
-            strasse,
-        } = this.state;
+        const { email, password, vorname, nachname, plz, ort, strasse } = this.state;
+        if (this.state.toUsers === true) {
+            return <Redirect to="/fetch-users" />;
+        }
+
         return (
             <Container className="App">
-                <h2>Sign In</h2>
+                <h2>Registrierung</h2>
                 <Form className="form" onSubmit={e => this.submitForm(e)}>
                     <Col>
                         <FormGroup>
-                            <Label>Username</Label>
+                            <Label>Benutzername / Email</Label>
                             <Input
                                 type="email"
                                 name="email"
                                 id="exampleEmail"
                                 placeholder="myemail@email.com"
                                 value={email}
-                                valid={
-                                    this.state.validate.emailState ===
-                                    'has-success'
-                                }
-                                invalid={
-                                    this.state.validate.emailState ===
-                                    'has-danger'
-                                }
+                                valid={this.state.validate.emailState === 'has-success'}
+                                invalid={this.state.validate.emailState === 'has-danger'}
                                 onChange={e => {
                                     this.validateEmail(e);
                                     this.handleChange(e);
                                 }}
                             />
-                            <FormFeedback valid>
-                                That's a tasty looking email you've got there.
-                            </FormFeedback>
+                            <FormFeedback valid>That's a tasty looking email you've got there.</FormFeedback>
                             <FormFeedback>
-                                Uh oh! Looks like there is an issue with your
-                                email. Please input a correct email.
+                                Uh oh! Looks like there is an issue with your email. Please input a correct email.
                             </FormFeedback>
-                            <FormText>
-                                Your username is most likely your email.
-                            </FormText>
+                            <FormText>Geben Sie als Benutzernamen Ihre Email Adresse ein.</FormText>
                         </FormGroup>
                     </Col>
                     <Col>
@@ -153,16 +127,63 @@ class UserForm extends Component<{}, IFormState> {
                                     this.handleChange(e);
                                 }}
                             />
-                            <FormFeedback valid>
-                                That's a tasty looking email you've got there.
-                            </FormFeedback>
-                            <FormFeedback>
-                                Uh oh! Looks like there is an issue with your
-                                email. Please input a correct email.
-                            </FormFeedback>
-                            <FormText>
-                                Your username is most likely your email.
-                            </FormText>
+                            <FormText>Geben Sie ihren Nachnamen ein.</FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Vorname</Label>
+                            <Input
+                                type="text"
+                                name="vorname"
+                                id="txtVorname"
+                                placeholder="Vorname"
+                                value={vorname}
+                                onChange={e => {
+                                    this.handleChange(e);
+                                }}
+                            />
+                            <FormText>Geben Sie ihren Vornamen ein.</FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>PLZ</Label>
+                            <Input
+                                type="text"
+                                name="plz"
+                                id="txtPlz"
+                                placeholder="PLZ"
+                                value={plz}
+                                onChange={e => {
+                                    this.handleChange(e);
+                                }}
+                            />
+                            <FormText>Geben Sie ihre PLZ ein.</FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Ort</Label>
+                            <Input
+                                type="text"
+                                name="ort"
+                                id="txtOrt"
+                                placeholder="Ort"
+                                value={ort}
+                                onChange={e => {
+                                    this.handleChange(e);
+                                }}
+                            />
+                            <FormText>Geben Sie ihren Wohnort ein.</FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Strasse Hausnr</Label>
+                            <Input
+                                type="text"
+                                name="strasse"
+                                id="txtStrasse"
+                                placeholder="Strasse und Hausnr"
+                                value={strasse}
+                                onChange={e => {
+                                    this.handleChange(e);
+                                }}
+                            />
+                            <FormText>Geben Sie ihre Strasse und Hausnr ein.</FormText>
                         </FormGroup>
                     </Col>
                     <Col>
@@ -178,7 +199,7 @@ class UserForm extends Component<{}, IFormState> {
                             />
                         </FormGroup>
                     </Col>
-                    <Button>Submit</Button>
+                    <Button>Speichern</Button>
                 </Form>
             </Container>
         );

@@ -1,14 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import {
-    Collapse,
-    Container,
-    Navbar,
-    NavbarBrand,
-    NavbarToggler,
-    NavItem,
-    NavLink,
-} from 'reactstrap';
+import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import { DisplayWhen } from './DisplayWhen';
@@ -40,18 +32,12 @@ export class NavMenu extends Component<{}, INavMenuState> {
     public render(): React.ReactElement {
         return (
             <header>
-                <Navbar
-                    className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-                    light
-                >
+                <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
                     <Container>
                         <NavbarBrand tag={Link} to="/">
                             Digitaler Gesundheitsassistent
                         </NavbarBrand>
-                        <NavbarToggler
-                            onClick={this.toggleNavbar}
-                            className="mr-2"
-                        />
+                        <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                         <Collapse
                             className="d-sm-inline-flex flex-sm-row-reverse"
                             isOpen={!this.state.collapsed}
@@ -59,48 +45,28 @@ export class NavMenu extends Component<{}, INavMenuState> {
                         >
                             <ul className="navbar-nav flex-grow">
                                 <NavItem>
-                                    <NavLink
-                                        tag={Link}
-                                        className="text-dark"
-                                        to="/"
-                                    >
-                                        Home
+                                    <NavLink tag={Link} className="text-dark" to="/">
+                                        Start
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink
-                                        tag={Link}
-                                        className="text-dark"
-                                        to="/counter"
-                                    >
-                                        Counter
+                                    <NavLink tag={Link} className="text-dark" to="/register">
+                                        Anmelden
                                     </NavLink>
                                 </NavItem>
                                 <DisplayWhen visible={this.state.loggedIn}>
                                     <NavItem>
-                                        <NavLink
-                                            tag={Link}
-                                            className="text-dark"
-                                            to="/fetch-data"
-                                        >
-                                            Fetch data
+                                        <NavLink tag={Link} className="text-dark" to="/login">
+                                            Einloggen
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
-                                        <NavLink
-                                            tag={Link}
-                                            className="text-dark"
-                                            to="/fetch-users"
-                                        >
-                                            Fetch Users
+                                        <NavLink tag={Link} className="text-dark" to="/diary">
+                                            Ansicht Tagebuch
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
-                                        <NavLink
-                                            tag={Link}
-                                            className="text-dark"
-                                            to="/diary-form"
-                                        >
+                                        <NavLink tag={Link} className="text-dark" to="/diary-form">
                                             Tagebuch
                                         </NavLink>
                                     </NavItem>

@@ -7,6 +7,7 @@ import { post } from '../Libs/http';
 import { DiaryEntry } from '../Models/DiaryModel';
 import { Symptom } from '../Models/SymptomModel';
 import { ContactPerson } from '../Models/ContactPersonModel';
+import { Redirect } from 'react-router';
 
 interface IEmailState {
     emailState: string;
@@ -16,9 +17,15 @@ interface IFormState {
     loading: boolean;
     activity: string;
     temperature: number;
-    symptoms: string[];
+    husten: boolean;
+    kurzatmigkeit: boolean;
+    atemnot: boolean;
+    gliederschmerzen: boolean;
+    durchfall: boolean;
+    geruchssinnVerlust: boolean;
+    muedigkeit: boolean;
     contacts: ContactPerson[];
-    time: Date | string;
+    time: Date;
     symptomsfromDB: Symptom[];
     validate: IEmailState;
     [key: string]: any;
@@ -29,8 +36,15 @@ class DiaryForm extends Component<{}, IFormState> {
         super(props);
         this.state = {
             loading: true,
+            toDiary: false,
             activity: '',
-            symptoms: [],
+            atemnot: false,
+            durchfall: false,
+            geruchssinnVerlust: false,
+            gliederschmerzen: false,
+            husten: false,
+            kurzatmigkeit: false,
+            muedigkeit: false,
             contacts: [],
             temperature: 36,
             time: new Date(),
@@ -54,8 +68,9 @@ class DiaryForm extends Component<{}, IFormState> {
         this.setState({ validate });
     }
 
-    handleChange = async (event: React.FormEvent<HTMLInputElement | HTMLSelectElement>) => {
+    handleChange = async (event: React.FormEvent<HTMLInputElement>) => {
         const target = event.target as HTMLInputElement;
+        const { name } = target;
         let value: any;
         switch (target.type) {
             case 'checkbox':
@@ -64,10 +79,9 @@ class DiaryForm extends Component<{}, IFormState> {
             case 'select-multiple':
                 var selectElement = event.target as HTMLSelectElement;
                 var options = selectElement.options;
-                value = [];
                 for (var i = 0, l = options.length; i < l; i++) {
-                    if (options[i].selected) {
-                        value.push(options[i].value);
+                    if (options[i].title === name) {
+                        value = options[i].selected;
                     }
                 }
                 break;
@@ -75,7 +89,6 @@ class DiaryForm extends Component<{}, IFormState> {
                 value = target.value;
                 break;
         }
-        const { name } = target;
         await this.setState({
             [name]: value,
         });
@@ -86,10 +99,13 @@ class DiaryForm extends Component<{}, IFormState> {
             time: state.time,
             activity: state.activity,
             temperature: state.temperature,
-            symptoms: [
-                { name: 'Hallo', value: 10 },
-                { name: 'Huhu', value: 5 },
-            ],
+            husten: state.husten,
+            kurzatmigkeit: state.kurzatmigkeit,
+            atemnot: state.atemnot,
+            gliederschmerzen: state.gliederschmerzen,
+            durchfall: state.durchfall,
+            geruchssinnVerlust: state.geruchssinnVerlust,
+            muedigkeit: state.muedigkeit,
             contacts: state.contacts,
         };
     }
@@ -100,10 +116,11 @@ class DiaryForm extends Component<{}, IFormState> {
         e.preventDefault();
         let diaryEntry: DiaryEntry = this.formatDiary(this.state);
         await post('https://hoodaid20200321090450.azurewebsites.net/api/DiaryEntries', diaryEntry);
+        this.setState({ toDiary: true });
     }
 
     public componentDidMount(): void {
-        this.populateSymptomData();
+        //this.populateSymptomData();
     }
 
     public async populateSymptomData() {
@@ -115,14 +132,19 @@ class DiaryForm extends Component<{}, IFormState> {
         this.state.symptomsfromDB.map(symptom => mySymptoms.push(symptom.name));
         this.setState({ symptoms: mySymptoms });
     }
+
     render() {
+        if (this.state.toDiary === true) {
+            return <Redirect to="/diary" />;
+        }
+
         return (
             <Container className="App">
-                <h2>Sign In</h2>
+                <h2>Gesundheitstagebuch</h2>
                 <Form className="form" onSubmit={e => this.submitForm(e)}>
                     <Col>
                         <FormGroup>
-                            <Label>Aktivität</Label>
+                            <Label>Ihre heutige Aktivität</Label>
                             <Input
                                 type="text"
                                 name="activity"
@@ -137,7 +159,7 @@ class DiaryForm extends Component<{}, IFormState> {
                     </Col>
                     <Col>
                         <FormGroup>
-                            <Label>Temperatur</Label>
+                            <Label>Ihre gemessene Temperatur</Label>
                             <Input
                                 type="number"
                                 name="temperature"
@@ -151,25 +173,92 @@ class DiaryForm extends Component<{}, IFormState> {
                         </FormGroup>
                     </Col>
                     <Col>
+                        <Label>Heutige Symptome</Label>
                         <FormGroup>
-                            <Label for="exampleSelectMulti">Symptome</Label>
-                            <Input
-                                type="select"
-                                name="symptoms"
-                                id="multiSelectSymptome"
-                                value={this.state.symptoms}
-                                onChange={e => {
-                                    this.handleChange(e);
-                                }}
-                                multiple
-                            >
-                                {this.state.symptomsfromDB.map((symptom, index) => (
-                                    <option key={index}>{symptom.name}</option>
-                                ))}
-                            </Input>
+                            <Col>
+                                <Label>
+                                    <Input
+                                        type="checkbox"
+                                        selected={this.state.husten}
+                                        name="husten"
+                                        onChange={e => {
+                                            this.handleChange(e);
+                                        }}
+                                    />
+                                    Husten
+                                </Label>
+                                <Label>
+                                    <Input
+                                        type="checkbox"
+                                        selected={this.state.kurzatmigkeit}
+                                        name="kurzatmigkeit"
+                                        onChange={e => {
+                                            this.handleChange(e);
+                                        }}
+                                    />
+                                    Kurzatmitgkeit
+                                </Label>
+                                <Label>
+                                    <Input
+                                        type="checkbox"
+                                        selected={this.state.atemnot}
+                                        name="atemnot"
+                                        onChange={e => {
+                                            this.handleChange(e);
+                                        }}
+                                    />
+                                    Atemnot
+                                </Label>
+                                <Label>
+                                    <Input
+                                        type="checkbox"
+                                        selected={this.state.gliederschmerzen}
+                                        name="gliederschmerzen"
+                                        onChange={e => {
+                                            this.handleChange(e);
+                                        }}
+                                    />
+                                    Gliederschmerzen
+                                </Label>
+                                <Label>
+                                    <Input
+                                        type="checkbox"
+                                        selected={this.state.durchfall}
+                                        name="durchfall"
+                                        onChange={e => {
+                                            this.handleChange(e);
+                                        }}
+                                    />
+                                    Durchfall
+                                </Label>
+                            </Col>
+                            <Col>
+                                <Label>
+                                    <Input
+                                        type="checkbox"
+                                        selected={this.state.geruchssinnVerlust}
+                                        name="geruchssinnVerlust"
+                                        onChange={e => {
+                                            this.handleChange(e);
+                                        }}
+                                    />
+                                    Verlust des Geruchssinns
+                                </Label>
+                                <Label>
+                                    <Input
+                                        type="checkbox"
+                                        selected={this.state.muedigkeit}
+                                        name="muedigkeit"
+                                        onChange={e => {
+                                            this.handleChange(e);
+                                        }}
+                                    />
+                                    Müdigkeit
+                                </Label>
+                            </Col>
                         </FormGroup>
                     </Col>
-                    <Button>Submit</Button>
+                    <Button>Speichern</Button>
                 </Form>
             </Container>
         );

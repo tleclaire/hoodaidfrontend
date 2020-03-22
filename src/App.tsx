@@ -8,17 +8,20 @@ import { Counter } from './components/Counter';
 import FetchUsers from './components/FetchUsers';
 
 import './custom.css';
-import UserForm from './components/UserForm';
 import DiaryForm from './components/Diary';
+import { NotImplemented } from './components/notimplemented';
+import FetchDiary from './components/FetchDiary';
+import UserForm from './components/UserForm';
 
 const App: FC = () => {
     return (
         <Layout>
             <Route exact path="/" component={Home} />
-            <Route path="/counter" component={Counter} />
-            <Route path="/fetch-data" component={FetchData} />
-            <Route path="/fetch-users" component={FetchUsers} />
+            <Route path="/register" component={UserForm} />
+            <Route path="/login" component={NotImplemented} />
+            <Route path="/diary" component={FetchDiary} />
             <Route path="/diary-form" component={DiaryForm} />
+            <Route path="/fetch-users" component={FetchUsers} />
         </Layout>
     );
 };
