@@ -60,10 +60,7 @@ export default class FetchUsers extends Component<{}, IFetchUsersState> {
     public renderUsersTable(users: IUser[]): React.ReactElement {
         return (
             <div>
-                <table
-                    className="table table-striped"
-                    aria-labelledby="tabelLabel"
-                >
+                <table className="table table-striped" aria-labelledby="tabelLabel">
                     <thead>
                         <tr key={0}>
                             <th>Vorname</th>

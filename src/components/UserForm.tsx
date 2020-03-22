@@ -85,7 +85,10 @@ class UserForm extends Component<{}, IFormState> {
     async submitForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         let user: IUser = this.formatUser(this.state);
-        await post('http://localhost:5000/api/Users', user);
+        await post(
+            'https://hoodaid20200321090450.azurewebsites.net/api/Users',
+            user,
+        );
         console.log(`Email: ${this.state.email}`);
     }
 

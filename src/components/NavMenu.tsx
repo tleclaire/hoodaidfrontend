@@ -11,9 +11,11 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
+import { DisplayWhen } from './DisplayWhen';
 
 interface INavMenuState {
     collapsed: boolean;
+    loggedIn: boolean;
 }
 
 export class NavMenu extends Component<{}, INavMenuState> {
@@ -25,6 +27,7 @@ export class NavMenu extends Component<{}, INavMenuState> {
         this.toggleNavbar = this.toggleNavbar.bind(this);
         this.state = {
             collapsed: true,
+            loggedIn: true,
         };
     }
 
@@ -43,7 +46,7 @@ export class NavMenu extends Component<{}, INavMenuState> {
                 >
                     <Container>
                         <NavbarBrand tag={Link} to="/">
-                            HoodAidReact
+                            Digitaler Gesundheitsassistent
                         </NavbarBrand>
                         <NavbarToggler
                             onClick={this.toggleNavbar}
@@ -73,33 +76,35 @@ export class NavMenu extends Component<{}, INavMenuState> {
                                         Counter
                                     </NavLink>
                                 </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        tag={Link}
-                                        className="text-dark"
-                                        to="/fetch-data"
-                                    >
-                                        Fetch data
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        tag={Link}
-                                        className="text-dark"
-                                        to="/fetch-users"
-                                    >
-                                        Fetch Users
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        tag={Link}
-                                        className="text-dark"
-                                        to="/user-form"
-                                    >
-                                        Users Form
-                                    </NavLink>
-                                </NavItem>
+                                <DisplayWhen visible={this.state.loggedIn}>
+                                    <NavItem>
+                                        <NavLink
+                                            tag={Link}
+                                            className="text-dark"
+                                            to="/fetch-data"
+                                        >
+                                            Fetch data
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink
+                                            tag={Link}
+                                            className="text-dark"
+                                            to="/fetch-users"
+                                        >
+                                            Fetch Users
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink
+                                            tag={Link}
+                                            className="text-dark"
+                                            to="/diary-form"
+                                        >
+                                            Tagebuch
+                                        </NavLink>
+                                    </NavItem>
+                                </DisplayWhen>
                             </ul>
                         </Collapse>
                     </Container>

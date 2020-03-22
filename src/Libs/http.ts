@@ -35,6 +35,7 @@ export async function post<T>(
         headers: { 'Content-Type': 'application/json' },
     },
 ): Promise<HttpResponse<T>> {
+    console.log(JSON.stringify(body));
     return await http<T>(new Request(path, args));
 }
 

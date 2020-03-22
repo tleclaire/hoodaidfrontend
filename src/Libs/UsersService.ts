@@ -15,7 +15,7 @@ function formatUser(user: IUser): IUser {
 
 export class UserService {
     public getUsers(): Promise<IUser[]> {
-        return fetch('http://localhost:5000/api/Users')
+        return fetch('https://hoodaid20200321090450.azurewebsites.net/api/Users')
             .then(res => res.json())
             .then(res => res.map((user: IUser) => formatUser(user)));
     }

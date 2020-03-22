@@ -9,6 +9,7 @@ import FetchUsers from './components/FetchUsers';
 
 import './custom.css';
 import UserForm from './components/UserForm';
+import DiaryForm from './components/Diary';
 
 const App: FC = () => {
     return (
@@ -17,7 +18,7 @@ const App: FC = () => {
             <Route path="/counter" component={Counter} />
             <Route path="/fetch-data" component={FetchData} />
             <Route path="/fetch-users" component={FetchUsers} />
-            <Route path="/user-form" component={UserForm} />
+            <Route path="/diary-form" component={DiaryForm} />
         </Layout>
     );
 };
